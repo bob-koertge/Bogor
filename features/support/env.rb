@@ -3,6 +3,7 @@ require 'ap'
 require 'logger'
 require 'yaml'
 require 'rspec/expectations'
+require 'sauce_whisk'
 
 $log = Logger.new('log/smoke_test.log')
 
@@ -53,7 +54,6 @@ case ENV['TEST_SERVICE'].downcase
     rescue ArgumentError
       app_error "#{ENV['TEST_BROWSER']} is not a supported browser for local testing."
     end
-
   when 'sauce'
     #TODO name test for reference in Sauce Labs
     app_info 'Running tests on Sauce Labs'

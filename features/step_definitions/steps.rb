@@ -11,7 +11,7 @@ Given /^I request the status of (\w*)/ do |arg1|
       $browser.navigate.to "#{$site_url}/#{arg1}/status"
     when 'portal'
       # noinspection RubyResolve,RubyResolve
-      $browser.navigate.to "#{$site_url}/customer/portal/status"
+      $browser.navigate.to "#{$site_url}/customer/portal/status1"
     else
       app_error 'Endpoint not supported'
   end
