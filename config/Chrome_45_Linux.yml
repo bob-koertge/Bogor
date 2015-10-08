@@ -1,0 +1,3 @@
+browserName: chrome
+platform: linux
+version: 45
