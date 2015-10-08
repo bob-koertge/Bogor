@@ -4,6 +4,23 @@ require 'logger'
 require 'yaml'
 require 'rspec/expectations'
 require 'sauce_whisk'
+require 'httparty'
+require 'securerandom'
+require 'faker'
+require 'faraday'
+require 'as-duration'
+
+PROTOCOL = 'https://'
+DOMAIN = 'deskstaging'
+TLD = '.com'
+$sitename = "zzz-bobtest1-#{SecureRandom.hex}"
+$data_store= Hash.new
+$data_store[:site_info] = {
+  site_url: "#{PROTOCOL}#{$sitename}.#{DOMAIN}#{TLD}",
+  site_name: $sitename,
+  user_email: 'bob@desk.com',
+  user_password: 'Test1234'
+}
 
 $log = Logger.new('log/smoke_test.log')
 
@@ -61,7 +78,7 @@ case ENV['TEST_SERVICE'].downcase
     is_env_var_set required_env_var
 
     begin
-      caps = YAML.load_file("config/#{ENV['TEST_BROWSER']}.yml")
+      caps = YAML.load_file("config/sauce_browsers/#{ENV['TEST_BROWSER']}.yml")
     rescue Errno::ENOENT
       app_error "No configuration file found for #{ENV['TEST_BROWSER']}"
     end
