@@ -1,3 +1,7 @@
+Transform /^(-?\d+)$/ do |number|
+  number.to_i
+end
+
 Given(/^I am on a new site$/) do
   # noinspection RubyResolve,RubyResolve
   $browser.navigate.to 'https://support.desk.com'
@@ -21,9 +25,10 @@ Then(/^The system returns the current status$/) do
   # noinspection RubyResolve,RubyResolve
   expect($browser.find_element(:tag_name => 'body').text).to eq('OK')
 end
-Given(/^I*\s*seed (\d+) email[s]*$/) do |qty|
+Given(/^I*\s*seed (\d+) (\w+) email[s]*$/) do |qty,type|
   seed_data = SeedDataApiHelper.new $data_store
-  seed_data.create_case('email',qty)
+  seed_data.create_case('email',qty,type)
+
 end
 Given(/^I create a new site via api$/) do
   response = HTTParty.post("#{PROTOCOL}reg.#{DOMAIN}#{TLD}/api/v2/site",
@@ -51,3 +56,8 @@ Then(/^the site should exist$/) do
   }
   expect(result).to eq('OK')
 end
+Then(/^I wait for postmark to send in first case$/) do
+  email_helper = EmailHelper.new $data_store
+  expect(email_helper.wait_for_postmark).to eql(true)
+end
+

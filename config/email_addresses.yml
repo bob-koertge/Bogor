@@ -1,0 +1,43 @@
+# this yaml file stores the gmail accounts used for sending/receiving emails
+
+email_addresses:
+  testuser1@assistlytest.com
+  testuser2@assistlytest.com
+  testuser3@assistlytest.com
+  testuser4@assistlytest.com
+  testuser5@assistlytest.com
+  testuser6@assistlytest.com
+  testuser7@assistlytest.com
+  testuser8@assistlytest.com
+  testuser9@assistlytest.com
+  testuser10@assistlytest.com
+  testuser11@assistlytest.com
+  testuser12@assistlytest.com
+  testuser13@assistlytest.com
+  testuser14@assistlytest.com
+  testuser15@assistlytest.com
+
+# the below email addresses will be reserved for the default agent created with every new site
+default_site_creation_email_addresses:
+  testuser16@assistlytest.com
+  testuser17@assistlytest.com
+  testuser18@assistlytest.com
+  testuser19@assistlytest.com
+  testuser20@assistlytest.com
+  testuser20@assistlytest.com
+  testuser21@assistlytest.com
+  testuser22@assistlytest.com
+  testuser23@assistlytest.com
+  testuser24@assistlytest.com
+  testuser25@assistlytest.com
+  testuser26@assistlytest.com
+  testuser27@assistlytest.com
+  testuser28@assistlytest.com
+  testuser29@assistlytest.com
+  testuser30@assistlytest.com
+
+email_addresses_configs:
+  password: "1MT'tfuUxt/Ar34$`'GqJkpQ=*Rw4`SL"
+  imap_host: imap.gmail.com
+  imap_port: 993
+

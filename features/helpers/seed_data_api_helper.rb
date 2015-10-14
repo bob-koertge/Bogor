@@ -46,14 +46,25 @@ class SeedDataApiHelper
       create(endpoint, body)
     end
   end
+  def get_email_from_pool
+   email_address_pool = YAML.load_file('config/email_addresses.yml')
+   email_address_pool['email_addresses'].split.sample
+  end
 
-  def create_case(type, qty)
+  def create_case(channel='email', qty=1, type='random')
+    @groups = groups
     create_customer
     @customers = customers
-    qty.to_i.times do
+    qty.times do
+      if type == 'random'
+        from_email = Faker::Internet.safe_email
+      else
+        from_email = get_email_from_pool
+        @data_store[:customer] = {email: from_email}
+      end
       endpoint = "/api/v2/customers/#{@customers.sample['id']}/cases"
       body = {
-          type: type,
+          type: channel,
           subject: Faker::Hacker.say_something_smart,
           priority: @@supported_case_priorities.sample,
           status: @@supported_case_statues.sample.to_s,
@@ -61,18 +72,24 @@ class SeedDataApiHelper
           created_at: Faker::Time.between(OLDEST_CASE_IN_DAYS.days.ago, Time.now, :all),
           labels: [(Faker::Lorem.words(Random.rand(0...50)))],
       }
-      case type
+      case channel #TODO copy in other channel from seed data script
         when 'email'
           body[:message] = {
               direction: 'in',
               body: "#{Faker::Lorem.paragraph(2)}",
               to: "#{Faker::Internet.safe_email}",
-              from: "#{Faker::Internet.safe_email}",
+              from: "#{from_email}",
               subject: body[:subject]
           }
         else
           app_error 'Unsupported Channel for case creation'
       end
+      body[:_links] = {
+          assigned_group: {
+              class: 'group',
+              href: @groups.sample['_links']['self']['href']
+          }
+      }
       create(endpoint, body)
     end
   end
@@ -80,6 +97,11 @@ class SeedDataApiHelper
   def customers
     get_all(__callee__)
   end
+
+  def groups
+    get_all(__callee__)
+  end
+
   private
 
   def create(endpoint, body)
